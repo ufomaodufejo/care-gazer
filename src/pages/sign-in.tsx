@@ -1,8 +1,40 @@
 import DefaultLayout from "@/layouts/DefaultLayout";
 import React from "react";
 import Link from "next/link";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useSignInWithGoogle } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/app";
+import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function Signin() {
+  const router = useRouter();
+  const [signInForm, setSignInForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [signInWithEmailAndPassword, user, loading, fbError] =
+    useSignInWithEmailAndPassword(auth);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    signInWithEmailAndPassword(signInForm.email, signInForm.password);
+
+    // reroute to profile page after login
+    router.push("/profile/user-info");
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSignInForm((prev) => ({
+      ...prev,
+      [event.target.name]: event.target.value,
+    }));
+  };
+
+  const [signInWithGoogle] = useSignInWithGoogle(auth);
+
   return (
     <DefaultLayout>
       <div className="flex h-screen gap-64">
@@ -31,7 +63,7 @@ export default function Signin() {
           <h2 className="text-[24px] text-center w-[454px] text-[#c5c2c2] font-bold mb-4">
             Sign in to your CareGazer account by filling in your details
           </h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="my-2 flex flex-col justify-between w-[400px]">
               <div className="">
                 <label
@@ -45,6 +77,9 @@ export default function Signin() {
                   id="email"
                   type="email"
                   placeholder="Email Address"
+                  required
+                  name="email"
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -63,6 +98,9 @@ export default function Signin() {
                   id="password"
                   type="password"
                   placeholder="Password"
+                  required
+                  name="password"
+                  onChange={handleChange}
                 />
                 <Link
                   href="#"
@@ -72,9 +110,25 @@ export default function Signin() {
                 </Link>
               </div>
 
-              <button className=" mt-[32px] mx-auto py-[13px] px-[32px] text-lg rounded-3xl w-[296px] text-white bg-[#FFA400] font-medium">
+              <div className="mx-2 text-center">
+                {fbError && (
+                  <h1 className=" font-extrabold text-[#FF0000]">
+                    Sorry You do not have an account!! Please create an account.
+                    Thank You.
+                  </h1>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                className=" mt-[32px] mx-auto py-[13px] px-[32px] text-lg rounded-3xl w-[296px] text-white bg-[#FFA400] font-medium"
+              >
                 Sign In{" "}
               </button>
+            </div>
+            <div className="flex flex-col py-4 px-3 gap-3 items-center justify-center font-bold font-sans">
+              <h1>OR</h1>
+              <h1 onClick={() => signInWithGoogle()}>Continue with Google</h1>
             </div>
           </form>
         </div>

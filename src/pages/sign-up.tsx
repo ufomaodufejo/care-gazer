@@ -1,8 +1,43 @@
 import DefaultLayout from "@/layouts/DefaultLayout";
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/app";
+import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function SignUp() {
+  const router = useRouter();
+  const [signUpForm, setSignUpForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSignUpForm((prev) => ({
+      ...prev,
+      [event.target.name]: event.target.value,
+    }));
+  };
+  const [error, setError] = useState("");
+  const [createUserWithEmailAndPassword, user, loading, fbError] =
+    useCreateUserWithEmailAndPassword(auth);
+
+  const handleSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+
+    // Reset the error before trying to submit the form
+    if (error) setError("");
+
+    createUserWithEmailAndPassword(signUpForm.email, signUpForm.password);
+    console.log(fbError);
+
+    // reroute to sign in page after sign up
+    router.push("/sign-in");
+  };
+
   return (
     <DefaultLayout>
       <div className="flex h-screen gap-48 justify-end">
@@ -11,7 +46,7 @@ export default function SignUp() {
           <h2 className="text-[24px] text-center w-[454px] text-[#c5c2c2] font-bold mb-4">
             Create a CareGazer account and start enjoying premium health care
           </h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="flex gap-[25px]">
               <div className="my-2 flex flex-col justify-between w-[240px]">
                 <div className="">
@@ -26,6 +61,9 @@ export default function SignUp() {
                     id="fname"
                     type="text"
                     placeholder="First Name"
+                    required
+                    name="firstName"
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -42,6 +80,9 @@ export default function SignUp() {
                     id="lname"
                     type="text"
                     placeholder="Last Name"
+                    required
+                    name="lastName"
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -61,6 +102,9 @@ export default function SignUp() {
                     id="email"
                     type="email"
                     placeholder="Email Address"
+                    required
+                    name="email"
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -100,6 +144,9 @@ export default function SignUp() {
                     id="password"
                     type="password"
                     placeholder="Password"
+                    required
+                    name="password"
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -123,6 +170,20 @@ export default function SignUp() {
               </p>
             </div>
 
+            <div className="mx-2 text-center">
+              {error && (
+                <h1 className=" font-extrabold text-[#FF0000]">{error}</h1>
+              )}
+            </div>
+
+            <div className="mx-2 text-center">
+              {fbError && (
+                <h1 className=" font-extrabold text-[#FF0000]">
+                  {fbError.message}
+                </h1>
+              )}
+            </div>
+
             <div className="flex justify-center items-center">
               <button className=" mt-[32px] mx-auto py-[13px] px-[32px] text-lg rounded-3xl w-[296px] text-white bg-[#FFA400] font-medium">
                 Sign Up{" "}
@@ -141,7 +202,10 @@ export default function SignUp() {
                 Lorem ipsum dolor sit amet consectetur. Faucibus sagittis.
               </h1>
               <Link href={"/sign-in"}>
-                <button className="py-[13px] px-[32px] text-lg rounded-3xl w-[200px] bg-[#FFA400] font-medium  shadow-2xl">
+                <button
+                  className="py-[13px] px-[32px] text-lg rounded-3xl w-[200px] bg-[#FFA400] font-medium  shadow-2xl"
+                  type="submit"
+                >
                   Sign In
                 </button>
               </Link>

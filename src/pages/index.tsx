@@ -15,9 +15,9 @@ export default function index() {
       <div className="flex relative h-[777px]">
         <div className="py-8 w-2/5 h-[777px] bg-gradient-to-r from-[#023089] to-transparent  bg-right-bottom bg-cover text-center"></div>
         <div
-          className="w-3/5 h-[777px] flex justify-between py-8 px-4 bg-cover"
+          className="w-3/5 h-[777px] flex justify-between py-8 px-4 bg-cover bg"
           style={{
-            backgroundImage: `url(${home})`,
+            backgroundImage: `url(${{ home }})`,
           }}
         ></div>
         <div className=" mt-[156px] absolute ml-[181px] flex flex-col gap-10">

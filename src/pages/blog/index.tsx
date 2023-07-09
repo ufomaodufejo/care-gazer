@@ -4,16 +4,16 @@ import Link from "next/link";
 import { BlogProps } from "./blog.types";
 
 export default function Blog({ blogPosts, post }: BlogProps) {
-  if (!blogPosts) {
-    return (
-      <DefaultLayout>
-        <div>
-          <h1 className="text-5xl text-center m-[100px]">No Blog Posts Yet</h1>
-        </div>
-        ;
-      </DefaultLayout>
-    );
-  }
+  // if (!blogPosts) {
+  //   return (
+  //     <DefaultLayout>
+  //       <div>
+  //         <h1 className="text-5xl text-center m-[100px]">No Blog Posts Yet</h1>
+  //       </div>
+  //       ;
+  //     </DefaultLayout>
+  //   );
+  // }
   return (
     <DefaultLayout>
       <section className="mx-auto flex flex-col items-center justify-center gap-6 my-[156px]">
