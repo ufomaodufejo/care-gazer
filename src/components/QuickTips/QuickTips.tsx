@@ -42,7 +42,7 @@ export default function QuickTips() {
     <>
       <div className="flex flex-row flex-wrap p-10 gap-40 justify-center items-center mt-[32px] ">
         {quicktipsData.map((quicktips) => (
-          <Link href={`/quicktips/${quicktips.url}`}>
+          <Link href={`/quicktips/${quicktips.url}`} key={quicktips.id}>
             <div className=" w-[250px] h-[160px] border rounded-xl hover:bg-[#023089] border-[#b3b0b0] flex items-center  hover:text-white justify-center">
               <Image src={quicktips.image} alt={quicktips.alt} />
             </div>

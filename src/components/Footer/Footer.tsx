@@ -22,7 +22,7 @@ const footerItems = [
     url: "/faq",
   },
   {
-    index: 2,
+    index: 3,
     label: "Contact",
     url: "/contact",
   },
@@ -58,7 +58,7 @@ export default function Footer() {
         <div className="mx-auto ">
           <div className=" flex flex-row gap-[70px]">
             {socialMedia.map((socialmedia) => (
-              <Link href="#">
+              <Link href="#" key={socialmedia.id}>
                 <div className="border border-black bg-black w-10 h-10 flex justify-center items-center rounded-2xl p-2">
                   <Image src={socialmedia.image} alt={socialmedia.alt} />
                 </div>
