@@ -1,14 +1,14 @@
-import BookAnAppointment from "@/app/components/BookAnAppointment/BookAnAppointment";
-import Quicktips from "@/app/components/Quicktips/Quicktips";
-import DefaultLayouts from "@/app/layouts/DefaultLayouts";
+import BookAnAppointment from "@/components/BookAnAppointment/BookAnAppointment";
+import Quicktips from "@/components/QuickTips/QuickTips";
+import DefaultLayout from "@/layouts/DefaultLayout";
 import React from "react";
 import Image from "next/image";
-import quicktips3 from "../../assets/svg/quicktipsicon3.svg";
-import maledoc1 from "public/images/maledoc1.png";
+import quicktips3 from "@/assets/svg/quicktipsicon3.svg";
+import maledoc1 from "@/assets/images/maledoc1.png";
 
 export default function page() {
   return (
-    <DefaultLayouts>
+    <DefaultLayout>
       <div className="relative">
         <div className=" h-[386px] w-full bg-[#F8FAFE] flex">
           <div className="flex flex-col gap-[16px] mt-[176px] ml-[200px] ">
@@ -92,6 +92,6 @@ export default function page() {
 
         <BookAnAppointment />
       </div>
-    </DefaultLayouts>
+    </DefaultLayout>
   );
 }
